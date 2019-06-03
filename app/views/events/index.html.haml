@@ -1,0 +1,31 @@
+%h1 Listing events
+
+%table
+  %thead
+    %tr
+      %th Title
+      %th Description
+      %th Starttime
+      %th Endtime
+      %th Allday
+      %th Is complete
+      %th
+      %th
+      %th
+
+  %tbody
+    - @events.each do |event|
+      %tr
+        %td= event.title
+        %td= event.description
+        %td= event.starttime
+        %td= event.endtime
+        %td= event.allday
+        %td= event.is_complete
+        %td= link_to 'Show', event
+        %td= link_to 'Edit', edit_event_path(event)
+        %td= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Event', new_event_path

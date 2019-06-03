@@ -8,10 +8,12 @@
 
 
 require 'csv'
+require 'date'
 
 # ============
 # Seed Users
 # ============
+puts "\n\n Seed Users"
 csv_text = File.read(Rails.root.join('lib', 'seeds', 'users.csv'))
 csv = CSV.parse(csv_text, :headers => true)
 csv.each do |row|
@@ -28,4 +30,38 @@ csv.each do |row|
   user.save!
 
   puts "#{user.email} saved"
+end
+
+
+# ============
+# Seed Events
+# ============
+
+# /Users/kannah/workspace/ruby/avaamo_event/lib/seeds
+
+puts "\n\n Seed Events"
+events_text = File.read(Rails.root.join('lib', 'seeds', 'events.csv'))
+events = CSV.parse(events_text, :headers => true)
+events.each do |e|
+  event = Event.where(title: e['title'], starttime: DateTime.parse(e['starttime']),
+    endtime: DateTime.parse(e['endtime'])).first
+  if event
+    puts "Event '#{event.title}'' already created"
+  else
+    event = Event.new
+    event.title = e['title']
+    event.description = e['description']
+    event.starttime = DateTime.parse(e['starttime'])
+    event.allday = (e['allday'] == "TRUE") ? true : false
+
+    endtime = DateTime.parse(e['endtime'])
+    event.is_complete = DateTime.now > endtime ? true : false
+    event.endtime = endtime unless event.allday
+
+    # TODO: Process RSVPs
+
+    event.save!
+
+    puts "Created Event '#{event.title}'"
+  end
 end

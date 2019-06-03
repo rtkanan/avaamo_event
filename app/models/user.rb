@@ -7,4 +7,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: false }
   validates :username, uniqueness: { case_sensitive: false }
   validates :phone, uniqueness: {scope: :ext}
+
+  has_many :rsvps
+  has_many :events, through: :rsvps
 end
