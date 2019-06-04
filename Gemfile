@@ -29,6 +29,8 @@ gem "haml-rails", "~> 2.0"
 gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
 
+gem 'activerecord-import'
+
 group :development, :test do
   gem 'pry'
   gem 'pry-rails'
